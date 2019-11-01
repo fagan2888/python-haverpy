@@ -1,0 +1,1 @@
+pip install Haver --extra-index-url http://www.haver.com/Python --trusted-host www.haver.com
