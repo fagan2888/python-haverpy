@@ -28,14 +28,12 @@ def simpleparser(expression):
 # http://www.ccp4.ac.uk/dist/checkout/pyparsing-2.0.1/examples/simpleArith.py  
 
     integer = Word(nums).setParseAction(lambda t:int(t[0]))
-    variable = Word(alphas,exact=1)
+    variable = Word(alphanums)
     operand = integer | variable
 
-    expop = Literal('^')
     signop = oneOf('+ -')
     multop = oneOf('* /')
     plusop = oneOf('+ -')
-    factop = Literal('!')
 
     expr = operatorPrecedence( operand,
     [("!", 1, opAssoc.LEFT),
