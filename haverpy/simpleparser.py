@@ -1,23 +1,4 @@
-# simpleArith.py
-#
-# Example of defining an arithmetic expression parser using
-# the operatorPrecedence helper method in pyparsing.
-#
-# Copyright 2006, by Paul McGuire
-#
-
-from pyparsing import *
-
-integer = Word(nums).setParseAction(lambda t:int(t[0]))
-variable = Word(alphas,exact=1)
-operand = integer | variable
-
-expop = Literal('^')
-signop = oneOf('+ -')
-multop = oneOf('* /')
-plusop = oneOf('+ -')
-factop = Literal('!')
-
+def simpleparser(expression):
 # To use the operatorPrecedence helper:
 #   1.  Define the "atom" operand term of the grammar.
 #       For this simple grammar, the smallest operand is either
@@ -41,9 +22,22 @@ factop = Literal('!')
 #       as the generated pyparsing expression.  You can then use
 #       this expression to parse input strings, or incorporate it
 #       into a larger, more complex grammar.
-# http://www.ccp4.ac.uk/dist/checkout/pyparsing-2.0.1/examples/simpleArith.py
-#       
-expr = operatorPrecedence( operand,
+#
+# Copyright 2006, by Paul McGuire
+# Updated 2019, Santiago Sordo-Palacios
+# http://www.ccp4.ac.uk/dist/checkout/pyparsing-2.0.1/examples/simpleArith.py  
+
+    integer = Word(nums).setParseAction(lambda t:int(t[0]))
+    variable = Word(alphas,exact=1)
+    operand = integer | variable
+
+    expop = Literal('^')
+    signop = oneOf('+ -')
+    multop = oneOf('* /')
+    plusop = oneOf('+ -')
+    factop = Literal('!')
+
+    expr = operatorPrecedence( operand,
     [("!", 1, opAssoc.LEFT),
      ("^", 2, opAssoc.RIGHT),
      (signop, 1, opAssoc.RIGHT),
@@ -51,16 +45,5 @@ expr = operatorPrecedence( operand,
      (plusop, 2, opAssoc.LEFT),]
     )
 
-test = ["9 + 2 + 3",
-        "9 + 2 * 3",
-        "(9 + 2) * 3",
-        "(9 + -2) * 3",
-        "(9 + -2) * 3^2^2",
-        "(9! + -2) * 3^2^2",
-        "M*X + B",
-        "M*(X + B)",
-        "1+2*-3^4*5+-+-6",]
-for t in test:
-    print(t)
-    print(expr.parseString(t))
-    print() 
+    parsed = expr.parseString(expression)
+    return(parsed)
