@@ -113,3 +113,16 @@ def division(df1, df2):
     # Pass to the multiseries_function
     df = multiseries_function(df1, df2, 'division')
     return(df)
+
+def lag(df, periods = 1):
+    # Create a lag
+    assert(np.sign(periods) == 1)
+    df = df.shift(periods)
+    return(df)
+
+def lead(df, periods = -1):
+    # Create a lead
+    assert(np.sign(periods) == -1)
+    df = df.shift(periods)
+    return(df)
+
